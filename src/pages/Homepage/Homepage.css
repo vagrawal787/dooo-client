@@ -1,0 +1,216 @@
+:root {
+    --highlight-color: #E79B25;
+    --task-color: #FFECCC;
+    --main-color: #29465B;
+    --completed-tab-color: #F1F1E6;
+    --ai-color: #D0F5FF;
+}
+.user-chat{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    /* background-color: var(--task-color); */
+    color: var(--task-color);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.ai-chat{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    /* background-color: var(--task-color); */
+    color: var(--ai-color);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.user-text{
+    inline-size: 100%;
+    overflow-wrap: break-word;
+    /* margin: 5px; */
+}
+.ai-text{
+    inline-size: 100%;
+    overflow-wrap: break-word;
+    text-align: right;
+    /* margin: 5px; */
+}
+body {
+    background-color: #29465B;
+    min-height: 100vh;
+    padding: 20px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    overflow: hidden;
+    font-family: 'Kufam', sans-serif;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    /* padding-bottom: 0px; */
+    /* margin-bottom: 0px; */
+    /* overflow-y:scroll; */
+  }
+  
+  .column {
+    flex: 1;
+    display:flex;
+    flex-direction: column;
+    margin: 0 10px;
+    padding: 15px;
+    max-width: 33%;
+    overflow-y: hidden; /* Enable vertical scrolling when content overflows */
+    overflow-x: hidden;
+    max-height: calc(100vh - 80px);
+    scrollbar-width: thin; /* Remove default scrollbar on Firefox */
+  position: relative; /* Required for sticky positioning */
+    /* overflow-y:scroll; */
+    /* scrollbar-width: 0px; */
+  }
+  .column::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+    opacity:0;
+    transition: opacity 0.2s;
+    background-color: transparent;
+    position: fixed;
+  }
+  
+  .column:hover::-webkit-scrollbar {
+    opacity: 1; /* Show the scrollbar when the column is being hovered */
+  }
+  .column:hover {
+    overflow-y: auto;
+  }
+  
+
+  .column::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 4px; /* Round the corners of the thumb */
+    /* margin: 6px; */
+  }
+  
+  /* .column::-webkit-scrollbar-thumb:hover {
+    background-color: gray; 
+  } */
+  
+  .column .input-container{
+    display:flex;
+    /* justify-content: space-between; */
+    align-items:center;
+    position: sticky;
+    bottom: 0;
+    margin-bottom: 40px;
+    /* margin-right: 0; */
+    padding-right: 10px;
+    padding-bottom: 30px;
+    left:0;
+    right: 0;
+    width: 102%;
+    padding-top: 10px;
+    /* height: 100px; */
+    /* padding-top: 10px;  */
+    /* padding: 10px; */
+    /* padding-bottom: 10px; */
+    background-color: var(--main-color); /* Set the background color for the sticky area */
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header-text {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .login-button {
+    background-color: var(--highlight-color);
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    border-width: 0px;
+    font-family: 'Kufam', sans-serif;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .label {
+    color: #E79B25;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .input {
+    /* position: sticky;
+    bottom: 0; */
+    flex: 1;
+    width: 91%;
+    padding: 10px;
+    margin-right: 10px;
+    /* max-height: 20px; */
+    border-radius: 4px;
+    border-width: 0px;
+    
+  }
+  
+  .todo-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .todo-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background-color: var(--task-color);
+    color: var(--main-color);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .todo-text {
+    inline-size: 100%;
+    overflow-wrap: break-word;
+    /* margin: 5px; */
+  }
+  
+  .todo-item-icon {
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    min-height: 20px;
+    background-color: var(--highlight-color);
+    margin-right: 10px;
+  }
+
+  .todo-label {
+      margin-right: 10px;
+      font-size: small;
+      background-color: green;
+      padding: 5px 10px 5px 10px;
+      border-radius: 10px;
+      color: var(--task-color)
+  }
+  
+  .add-button {
+    background-color: var(--highlight-color);
+    padding: 10px;
+    border-radius: 4px;
+    /* margin-top: 10px; */
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    border-width: 0px;
+    font-family: 'Kufam', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    /* max-height: 20px; */
+  }
