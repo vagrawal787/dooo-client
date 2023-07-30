@@ -139,6 +139,7 @@ body {
     border-width: 0px;
     font-family: 'Kufam', sans-serif;
     font-family: 'Poppins', sans-serif;
+    cursor: pointer;
   }
   
   .label {

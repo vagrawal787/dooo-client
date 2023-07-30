@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore"
+import { db, auth } from '../../firebase'
 import './Homepage.css';
 
 interface Props { }
 
 const App: React.FC<Props> = () => {
+    interface UserInfo {
+        uid: string;
+        image: string;
+        name: string;
+    }
     const [ventInput, setVentInput] = useState<string>('');
     const [ventMessages, setVentMessages] = useState<string[]>([])
     const [todoInput, setTodoInput] = useState<string>('');
     const [longTermInput, setLongTermInput] = useState<string>('');
-    const [todos, setTodos] = useState<{ 'text': string, 'completed': boolean, 'label': string }[]>([{ 'text': 'hello', 'completed': false, 'label': 'Loading...' }]);
+    const [todos, setTodos] = useState<{ 'text': string, 'completed': boolean, 'label': string }[]>([]);
     const [longTermTasks, setLongTermTasks] = useState<string[]>([]);
+    const [userInfo, setUser] = useState<UserInfo>()
 
     const handleVentInputKey: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
         if (event.key === 'Enter' && ventInput.trim() !== '') {
@@ -120,12 +129,80 @@ const App: React.FC<Props> = () => {
                 return 'black'; // Default background color if the text doesn't match any of the cases
         }
     };
+
+    const handleLoginWithGoogle = () => {
+
+        const provider = new GoogleAuthProvider()
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // IdP data available using getAdditionalUserInfo(result)
+                // ...
+                let saveUser = { 'uid': user.uid, 'image': user.photoURL, 'name': user.displayName }
+                setUser(saveUser)
+                localStorage.setItem('authUser', JSON.stringify(saveUser))
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            });
+    }
+    const signOutAuth = () => {
+        signOut(auth).then(() => {
+            localStorage.removeItem('authUser')
+            setUser(null)
+        }).catch((error) => {
+            console.log("Something went wrong with sign out")
+        })
+    }
+    const addToFirestore = () => {
+        const database = doc(db, 'user_data', userInfo.uid)
+        setDoc(database, { todos: todos }, { merge: true }).then((res) => {
+            console.log(res)
+        })
+    }
+    useEffect(() => {
+        if (userInfo) {
+            addToFirestore()
+        }
+    }, [todos])
+    useEffect(() => {
+        let authUser = localStorage.getItem('authUser')
+        if (authUser){
+            setUser(JSON.parse(authUser))
+        }
+    }, [])
+    useEffect(() => {
+        if(userInfo){
+            const docRef = doc(db, "user_data", userInfo.uid)
+            getDoc(docRef).then((docSnap) => {
+                // console.log(docSnap)
+                if(docSnap.exists()) {
+                    // console.log("documentData: ", docSnap.data())
+                    setTodos(docSnap.data()["todos"])
+                } else{
+                    console.log("User has no data")
+                }
+            })
+        }
+    }, [userInfo])
+
     return (
         <div>
             {/* Header */}
             <motion.header className="header">
                 <motion.div className="header-text">Your Logo</motion.div>
-                <motion.button className="login-button">Login</motion.button>
+                {userInfo && <motion.img className="login-button" src={userInfo.image} width="40" height="40" onClick={signOutAuth} whileHover={{scale:1.1}}/>}
+                {!userInfo && <motion.button className="login-button" onClick={handleLoginWithGoogle} whileHover={{scale:1.1}}>Login With Google</motion.button>}
             </motion.header>
 
             {/* Three Columns */}
