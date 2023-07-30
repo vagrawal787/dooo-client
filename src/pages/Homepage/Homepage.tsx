@@ -22,7 +22,7 @@ const App: React.FC<Props> = () => {
                     "role": "user", "content": ventInput
                 }
             }
-            let response = fetch("http://localhost:8000/chat", {
+            let response = fetch("https://backend-ubh6ej6wta-uw.a.run.app/chat", {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(data)
@@ -65,7 +65,7 @@ const App: React.FC<Props> = () => {
             let fetchData = {
                 'text': todoInput
             }
-            let response = fetch("http://localhost:8000/label", {
+            let response = fetch("https://backend-ubh6ej6wta-uw.a.run.app/label", {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(fetchData)
